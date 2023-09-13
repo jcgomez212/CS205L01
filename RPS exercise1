@@ -1,0 +1,52 @@
+package edu.monmouth.exercise1;
+import java.util.Scanner;
+
+public class RPS {
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		
+		// Keep asking user to enter a move
+		while(true) {
+			
+			System.out.println("Welcome player! Enter your move: rock, paper, or scissors. If you'd like to end the game, type quit. ");
+			String userMove = in.nextLine();
+			userMove = userMove.toLowerCase();
+			
+			//Check if user entered quit
+			if(userMove.equals("quit")) {
+				break;
+			}
+			
+			// Make sure that userMove is valid
+			if(!userMove.equals("rock") && !userMove.equals("paper") && !userMove.equals("scissors")) {
+				System.out.println("Sorry player that move wasn't valid :( ");
+			} else {
+				// randomly generate bot's move (0, 1, 2)
+				int rand = (int)(Math.random() * 3);
+				String botMove = "";
+				if(rand == 0) {
+					botMove = "rock";
+				} else if(rand == 1) {
+					botMove = "paper";
+				} else {
+					botMove = "scissors";	
+				}
+				System.out.println("My move: " + botMove);
+				
+				// Check to see if the user won, lost, or tied
+				if(userMove.equals(botMove)) {
+					System.out.println("Look at us twinning! Sorry player, that was a tie. :| ");
+				} else if((userMove.equals("rock") && botMove.equals("scissors")) | (userMove.equals("scissors") && botMove.equals("paper")) || (userMove.equals("paper") && botMove.equals("rock"))) {
+					System.out.println("Congrats player you won! ;) ");
+				} else {
+					System.out.println("Sorry player you lost. Better luck next time! ");
+				}
+				
+			}
+			
+		}
+	
+		System.out.println("Thanks for playing! Have a great day user! ");
+		
+	}
+}
