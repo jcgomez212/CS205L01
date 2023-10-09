@@ -27,13 +27,15 @@ public class Deck {
 
     public Card draw() {
         if (cards.isEmpty()) {
-            throw new IllegalStateException("Deck is empty.");
+            System.out.println("Your deck is empty.");
+            return null;
         }
         Random random = new Random();
         int index = random.nextInt(cards.size());
         Card drawnCard = cards.remove(index);
         return drawnCard;
     }
+
 
     public int cardsLeft() {
         return cards.size();
