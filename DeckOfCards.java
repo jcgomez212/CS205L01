@@ -3,8 +3,6 @@
 package deckOfCards;
 
 import java.util.Arrays;
-import deckOfCards.DeckException;
-import deckOfCards.DeckOfCardsConstants;
 
 public class DeckOfCards {
     public static void main(String[] args) {
@@ -20,17 +18,33 @@ public class DeckOfCards {
             System.out.println("Shuffled deck:");
             System.out.println(deck);
 
-            Card[] player1Hand = deck.deal(CARDSINHAND);
-            Card[] player2Hand = deck.deal(CARDSINHAND);
-            Card[] player3Hand = deck.deal(CARDSINHAND);
-            Card[] player4Hand = deck.deal(CARDSINHAND);
+            Card[][] playersHands = new Card[4][CARDSINHAND];
 
-            System.out.println("\nPlayer 1's Hand: " + Arrays.toString(player1Hand));
-            System.out.println("Player 2's Hand: " + Arrays.toString(player2Hand));
-            System.out.println("Player 3's Hand: " + Arrays.toString(player3Hand));
-            System.out.println("Player 4's Hand: " + Arrays.toString(player4Hand));
+            for (int i = 0; i < 4; i++) {
+                playersHands[i] = deck.deal(CARDSINHAND);
+                System.out.println("\nPlayer " + (i+1) + "'s Hand: " + Arrays.toString(playersHands[i]));
+            }
             System.out.println("\nRemaining cards in the deck:");
             System.out.println(deck);
+
+            int highestValue = -1;
+            int highestValuePlayer = -1;
+            int lowestValue = Integer.MAX_VALUE;
+            int lowestValuePlayer = -1;
+
+            for (int i = 0; i < 4; i++) {
+                int currentValue = calculateHandValue(playersHands[i]);
+                if (currentValue > highestValue) {
+                    highestValue = currentValue;
+                    highestValuePlayer = i;
+                }
+                if (currentValue < lowestValue) {
+                    lowestValue = currentValue;
+                    lowestValuePlayer = i;
+                }
+            }
+            System.out.println("\nPlayer " + (highestValuePlayer + 1) + " has the highest hand value of " + highestValue);
+            System.out.println("Player " + (lowestValuePlayer + 1) + " has the lowest hand value of " + lowestValue);
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error: " + e.getMessage());
@@ -42,5 +56,13 @@ public class DeckOfCards {
             System.err.println("Error: Cannot deal. " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static int calculateHandValue(Card[] hand) {
+        int totalValue = 0;
+        for (Card card : hand) {
+            totalValue += card.getRank().ordinal();
+        }
+        return totalValue;
     }
 }
