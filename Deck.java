@@ -3,6 +3,8 @@ package deckOfCards;
 
 import java.util.Arrays;
 import java.util.Random;
+import deckOfCards.DeckException;
+
 
 public class Deck {
     private Card[] cards;
@@ -29,22 +31,20 @@ public class Deck {
         }
     }
 
-    public Card draw() {
+    public Card draw() throws DeckException {
         if (numberOfCards == 0) {
-            System.out.println("Your deck is empty.");
-            return null;
+            throw new DeckException("No more cards in the deck to draw.");
         }
         Card drawnCard = cards[--numberOfCards];
         cards[numberOfCards] = null;
         return drawnCard;
     }
 
-    public Card[] deal(int cardsToDeal) {
+    public Card[] deal(int cardsToDeal) throws DeckException {
         if (numberOfCards < cardsToDeal) {
-            System.out.println("Not enough cards left to deal.");
-            return null;
+            throw new DeckException("Not enough cards left to deal.");
         }
-        
+
         Card[] hand = new Card[cardsToDeal];
         for (int i = 0; i < cardsToDeal; i++) {
             hand[i] = draw();
